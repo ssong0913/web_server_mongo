@@ -36,24 +36,72 @@ class MyMongo:
                 "create_at": datetime.datetime.utcnow()
         }
         result = users.insert_one(user)
-        print(result)
-        return 1
+        # print(result)
+        return result
 
-    def verify_password(self, input_password, id):
+    def verify_password(self, input_password, email):
         db = self.client.os
         users = db.users
-        user = users.find_one({"_id":id})
+        user = users.find_one({"email":email})
         # print(user)
-        # if user:
-        #     result = check_password(input_password, user['password'])
-        #     if result:
-        #         print("Verify Success")
-        #     else:
-        #         print("Verify Fail")
-        # else:
-        #     print("ID is Not Founded")
+        if user:
+            result = check_password(input_password, user['password'])
+            if result:
+                print("Verify Success")
+                return "1"
+            else:
+                print("Verify Fail")
+                return "2"
+        else:
+            print("ID is Not Founded")
+            return "3"
+
+    def find_user(self, email):
+        db = self.client.os
+        users = db.users
+        user = users.find_one({"email":email})
+        return user
+    
+    def find_data(self):
+        db = self.client.os
+        lists = db.lists
+        list = lists.find()
+        # for i in list:
+        #     print(i)
+        return list
+    
+    def insert_list(self, title, desc, author):
+        db = self.client.os
+        lists = db.lists
+        list = {"title": title,
+                "desc": desc,
+                "author": author,
+                "create_at": datetime.datetime.utcnow()
+        }
+        result = lists.insert_one(list)
+        return result
+    
+#     def update_list(self, title, desc, author):
+#         db = self.client.os
+#         lists = db.lists
+#         list = lists.find()
+#         result = lists.update_one(lists)
+#         print(result)
+#         return list
+    
+#     def delete_list(self, title, desc, author):
+#         db = self.client.os
+#         lists = db.lists       
+#         result = lists.delete_one(lists)
+#         return result
 
 # mymongo = MyMongo(MONGODB_URL, 'os')
-# # mymongo.user_insert("KIM", "2@naver.com", "010-1111-1111", "1234")
+# mymongo.user_insert("KIM", "2@naver.com", "010-1111-1111", "1234")
 # mymongo.verify_password("1234", ObjectId('64ba29b2379f06c38a1ae246'))
 
+
+# mymongo.verify_password("1234", "3@naver.com")
+# mymongo.find_data()
+
+# mymongo.insert_list("제목","내용","작가")
+# mymongo.update_list("은곡","dsaf123","123DAF")

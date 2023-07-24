@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+    <style>
+        table, th, td{
+            border: 1px solid #333;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 20px;
+            background-color: bisque;
+        }
+    </style>
+</head>
+<body>
+    <h1>List Page</h1>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Etc</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Etc</th>
+            </tr>
+        </tfoot>
+
+        <tbody>
+
+
+            {% for x in data %}
+            <tr>
+                <td>{{ x['_id'] }}</td>
+                <td>{{ x['title'] }}</td>
+                <td>{{ x['desc'] }}</td>
+                <td>{{ x['author'] }}</td>
+                <td>{{ x['create_at'] }}</td>
+                <td><a href="/edit/{{ x[0] }}"><button >편집</button></a>
+                    <a href="/delete/{{ x[0] }}"><button onclick="return confirm_func()">삭제</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+
+
+        </tbody>
+
+    </table>
+
+
+
+    <script>
+        function confirm_func() {
+            result = confirm('정말 삭제 하시겠습니까?')
+            console.log(result)
+            return result
+        }
+    </script>
+</body>
+</html>

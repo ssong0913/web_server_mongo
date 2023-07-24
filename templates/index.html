@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main</title>
 </head>
+
 <body>
-    <h1>welcome to My Hompage!!</h1>
-    {{ data }}
+    <h1>WelCome to My Homepage!!!</h1>
+    {% if session['is_loged'] %}    
+    <h2>{{ session['username'] }}님 반갑습니다!!!</h2>                    
+    <a href="/logout"><button type="submit">로그아웃</button></a>
+    {% else %}
+    게스트로 접속하셨습니다.
+    {% endif %}
+
+    <a href="/register"><button >회원가입</button></a>
+    <a href="/login"><button >로그인</button></a>
+    <a href="/list"><button >list</button></a>
 </body>
+
 </html>
