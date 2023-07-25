@@ -1,9 +1,11 @@
-from flask import Flask , render_template, request, redirect, session
+from flask import Flask , render_template, request, redirect, session, jsonify
 from data import Articles
 from models import MyMongo
 from config import MONGODB_URL
 from datetime import timedelta
 from functools import wraps
+from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
@@ -119,26 +121,23 @@ def create():
     elif request.method == "GET":
         return render_template('create.html')
 
-# @app.route('/edit/<ids>' , methods=['GET', 'POST'])
-# def edit(ids):
-#     data = mymongo.find_data()
-#     if request.method == 'GET':
-#         return render_template('list_edit.html', data = data)
-    
-#     elif request.method == 'POST':
-#         title = request.form['title']
-#         desc = request.form['desc']
-#         author = request.form['author']
-        
-#         result = mymongo.update_list(ids, title, desc, author)
-#         print(result)
-#         return redirect('/list')
+@app.route('/delete/<ids>')
+def delete(ids):
+    mymongo.delete_data(ids)        
+    return redirect('/list')
 
-# @app.route('/delete/<ids>')
-# def delete(ids):
-#     result = mymongo.delete_list(ids)
-#     print(result)
-#     return redirect('/list')
+@app.route('/edit/<ids>' , methods=['GET', 'POST'])
+def edit(ids):    
+    if request.method == 'GET':
+        data = mymongo.find_one_data(ids)
+        # print(data)
+        return render_template('list_edit.html' , data = data)
+    
+    elif request.method == "POST":
+        title = request.form['title']
+        desc = request.form.get("desc")
+        mymongo.update_data(ids, title, desc)
+        return redirect('/list')    
 
 if __name__ == '__main__':
     app.run(debug=True, port=9999)

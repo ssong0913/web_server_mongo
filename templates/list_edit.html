@@ -6,23 +6,23 @@
     <title>Document</title>
 </head>
 <body>
-
-    <form action="/edit/{{ session[0][0] }}", method="POST">
+    <h1>편집</h1>
+    <form action="/edit/{{ data['_id'] }}", method="POST">
         <!-- Text input -->
         <div class="form-outline mb-4">
-            <input type="text" name="title" id="form6Example3" class="form-control" />
+            <input type="text" name="title" id="form6Example3" class="form-control" value="{{ data['title'] }}"/>
             <label class="form-label" for="form6Example3">TITLE</label>
         </div>
         
         <!-- Message input -->
         <div class="form-outline mb-4">
-            <textarea class="form-control" name="desc" id="form6Example7" rows="4" >{{ session[0][2] }}</textarea>
+            <textarea class="form-control" name="desc" id="form6Example7" rows="4" >{{ data['desc'] }}</textarea>
             <label class="form-label" for="form6Example7">Additional information</label>
         </div>
         
         <!-- Text input -->
         <div class="form-outline mb-4">
-            <input type="text" name="author" id="form6Example4" class="form-control" value="{{ session['username'] }}" />
+            <input type="text" name="author" id="form6Example4" class="form-control" value="{{ data['author'] }}" readonly/>
             <label class="form-label" for="form6Example4">AUTHOR</label>
         </div>
 

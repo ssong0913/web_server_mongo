@@ -1,4 +1,5 @@
 import datetime
+
 from pymongo import MongoClient
 import pymongo
 # 암호화 알고리즘. 256을 제일 많이 사용한다.
@@ -70,6 +71,13 @@ class MyMongo:
         #     print(i)
         return list
     
+    def find_one_data(self, ids):
+        db = self.client.os
+        list = db.lists
+        data = list.find_one({'_id': ObjectId(ids)})
+        print(f'fwefwe{data}')
+        return data
+    
     def insert_list(self, title, desc, author):
         db = self.client.os
         lists = db.lists
@@ -77,23 +85,23 @@ class MyMongo:
                 "desc": desc,
                 "author": author,
                 "create_at": datetime.datetime.utcnow()
+                # "create_at":datetime.date.today().strftime('%Y년 %m월 %d일')
         }
         result = lists.insert_one(list)
         return result
+        
+    def delete_data(self, id):
+        db = self.client.os
+        lists = db.lists
+        lists.delete_one({'_id': ObjectId(id)})
+        return "1"
     
-#     def update_list(self, title, desc, author):
-#         db = self.client.os
-#         lists = db.lists
-#         list = lists.find()
-#         result = lists.update_one(lists)
-#         print(result)
-#         return list
-    
-#     def delete_list(self, title, desc, author):
-#         db = self.client.os
-#         lists = db.lists       
-#         result = lists.delete_one(lists)
-#         return result
+    # [컬렉션 객체].update_one( { [조건값] }, {"$set":{수정값}} )
+    def update_data(self, id, title, desc):
+        db = self.client.os
+        list = db.lists
+        list.update_one({'_id': ObjectId(id)}, {"$set":{"title":title, "desc":desc}})
+        return "1"
 
 # mymongo = MyMongo(MONGODB_URL, 'os')
 # mymongo.user_insert("KIM", "2@naver.com", "010-1111-1111", "1234")
@@ -104,4 +112,6 @@ class MyMongo:
 # mymongo.find_data()
 
 # mymongo.insert_list("제목","내용","작가")
-# mymongo.update_list("은곡","dsaf123","123DAF")
+
+# mymongo.update_data("64bf337932e6fca9a642f312","제목123","내용")
+
