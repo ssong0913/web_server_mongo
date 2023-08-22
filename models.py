@@ -84,7 +84,7 @@ class MyMongo:
         list = {"title": title,
                 "desc": desc,
                 "author": author,
-                "create_at": datetime.datetime.utcnow()
+                "create_at": datetime.datetime.now()
                 # "create_at":datetime.date.today().strftime('%Y년 %m월 %d일')
         }
         result = lists.insert_one(list)
